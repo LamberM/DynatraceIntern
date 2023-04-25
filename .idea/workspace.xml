@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d2f89be-8134-4b02-9fa4-6e10a94c1426" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/controllers/ProvideController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/services/AverageExchangeRateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/services/MajorDifferenceBuyAskRateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/services/MinMaxAverageValueService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/utils/BigDecimalResponses.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/LamberM/utils/ExchangeRateResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/LamberM/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/LamberM/UnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/LamberM/services/AverageExchangeRateServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/LamberM/services/MajorDifferenceBuyAskRateServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/LamberM/services/MinMaxAverageValueServiceTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="2d2f89be-8134-4b02-9fa4-6e10a94c1426" name="Changes" comment="new" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -180,6 +160,14 @@
       <option name="presentableId" value="Default" />
       <updated>1682178541806</updated>
     </task>
+    <task id="LOCAL-00001" summary="new">
+      <created>1682416622117</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682416622117</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,5 +180,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new" />
+    <option name="LAST_COMMIT_MESSAGE" value="new" />
   </component>
 </project>
