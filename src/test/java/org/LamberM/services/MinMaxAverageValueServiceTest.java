@@ -23,7 +23,7 @@ public class MinMaxAverageValueServiceTest implements UnitTest {
         //then
         BigDecimal expectedMin= new BigDecimal("2.7621");
         BigDecimal expectedMax= new BigDecimal("2.8748");
-        Assertions.assertEquals(expectedMin,actual.value1().setScale(4, RoundingMode.HALF_UP));
-        Assertions.assertEquals(expectedMax,actual.value2().setScale(4, RoundingMode.HALF_UP));
+        Assertions.assertEquals(expectedMin,actual.min().setScale(4, RoundingMode.HALF_UP));
+        Assertions.assertEquals(expectedMax,actual.max().setScale(4, RoundingMode.HALF_UP));
     }
 }
