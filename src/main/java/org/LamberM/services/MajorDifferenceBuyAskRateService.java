@@ -1,6 +1,7 @@
 package org.LamberM.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.LamberM.utils.ExchangeRateResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,12 +11,12 @@ import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
 
+
 @Service
 public class MajorDifferenceBuyAskRateService {
 
-    public BigDecimal getResponse(Currency currencyCode, int topCount) {
+    public ExchangeRateResponse calculateMajorDifferenceBuyAskRate(Currency currencyCode, int topCount) {
         RestTemplate restTemplate = new RestTemplate();
-
         double difference;
         double maxDifference = 0;
         String url = ("https://api.nbp.pl/api/exchangerates/rates/c/" + currencyCode + "/last" + "/" + topCount + "/?format=json");
@@ -36,9 +37,8 @@ public class MajorDifferenceBuyAskRateService {
             difference = maxRates.get(i) - minRates.get(i);
             if (difference >= maxDifference) {
                 maxDifference = difference;
-                i++;
             }
         }
-        return BigDecimal.valueOf(maxDifference);
+        return new ExchangeRateResponse(BigDecimal.valueOf(maxDifference));
     }
 }
