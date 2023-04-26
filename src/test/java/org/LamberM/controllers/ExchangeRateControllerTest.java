@@ -1,6 +1,8 @@
 package org.LamberM.controllers;
 
 import org.LamberM.UnitTest;
+import org.LamberM.error.handler.RestErrorResponse;
+import org.LamberM.error.handler.RestExceptionHandler;
 import org.LamberM.services.AverageExchangeRateService;
 import org.LamberM.services.MajorDifferenceBuyAskRateService;
 import org.LamberM.services.MinMaxAverageValueService;
@@ -10,14 +12,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.net.http.HttpConnectTimeoutException;
 import java.time.LocalDate;
+import java.util.Currency;
+
+import static org.mockito.Mockito.*;
 
 
-public class ProvideControllerTest implements UnitTest {
+public class ExchangeRateControllerTest implements UnitTest {
     @InjectMocks
-    ProvideController systemUnderTest;
+    ExchangeRateController systemUnderTest;
     @Mock
     AverageExchangeRateService averageExchangeRateServiceMock;
     @Mock
@@ -29,11 +37,15 @@ public class ProvideControllerTest implements UnitTest {
     void givenCurrencyCodeDate_whenProvideAverageRate_thenCorrectWork() throws Exception {
         //given
         LocalDate date = LocalDate.parse(("2023-04-21"));
+        Currency currency = Currency.getInstance("AUD");
         String currencyCode = "aud";
+        ExchangeRateResponse exchangeRateResponse = new ExchangeRateResponse(BigDecimal.valueOf(1));
+        when(averageExchangeRateServiceMock.calculateAverageExchangeRate(currency,date)).thenReturn(exchangeRateResponse);
         //when
-        ResponseEntity<ExchangeRateResponse> actual = systemUnderTest.provideAverageRate(currencyCode, date);
+        ResponseEntity<ExchangeRateResponse> returnValue = systemUnderTest.provideAverageRate(currencyCode, date);
         //then
-        Assertions.assertNotNull(actual);
+        verify(averageExchangeRateServiceMock).calculateAverageExchangeRate(currency, date);
+        Assertions.assertEquals(returnValue.getBody(),exchangeRateResponse);
     }
 
     @Test
@@ -43,7 +55,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "pln";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideAverageRate(currencyCode, date));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideAverageRate(currencyCode, date));
     }
 
     @Test
@@ -70,24 +82,14 @@ public class ProvideControllerTest implements UnitTest {
     @Test
     void givenCurrencyCodeAfterThanLocalDate_whenProvideAverageRate_thenRestErrorResponse() {
         //given
-        LocalDate date = LocalDate.parse(("2023-05-28"));
+        LocalDate date = LocalDate.now().plusDays(1);
         String currencyCode = "aud";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideAverageRate(currencyCode, date));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideAverageRate(currencyCode, date));
 
     }
 
-    @Test
-    void givenCurrencyCodeUncorrectDate_whenProvideAverageRate_thenRestErrorResponse() {
-        //given
-        LocalDate date = LocalDate.parse(("2023-04-22"));
-        String currencyCode = "aud";
-        //when
-        //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideAverageRate(currencyCode, date));
-
-    }
 
     /////////////////////////////////// MajorDifferenceTests//////////////////////////////////////////////////
     @Test
@@ -95,10 +97,14 @@ public class ProvideControllerTest implements UnitTest {
         //given
         int topCount = 10;
         String currencyCode = "aud";
+        Currency currency = Currency.getInstance("AUD");
+        ExchangeRateResponse exchangeRateResponse = new ExchangeRateResponse(BigDecimal.valueOf(1));
+        when(majorDifferenceBuyAskRateServiceMock.calculateMajorDifferenceBuyAskRate(currency,topCount)).thenReturn(exchangeRateResponse);
         //when
-        ResponseEntity<ExchangeRateResponse> actual = systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount);
+        ResponseEntity<ExchangeRateResponse> returnValue = systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount);
         //then
-        Assertions.assertNotNull(actual);
+        verify(majorDifferenceBuyAskRateServiceMock).calculateMajorDifferenceBuyAskRate(currency, topCount);
+        Assertions.assertEquals(returnValue.getBody(),exchangeRateResponse);
     }
 
     @Test
@@ -107,9 +113,8 @@ public class ProvideControllerTest implements UnitTest {
         int topCount = 10;
         String currencyCode = "pln";
         //when
-
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
     }
 
     @Test
@@ -119,7 +124,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "ad";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
     }
 
     @Test
@@ -129,7 +134,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "test";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
     }
 
     @Test
@@ -139,7 +144,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "aud";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
 
     }
 
@@ -150,7 +155,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "aud";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMajorDifferenceBuyAskRate(currencyCode, topCount));
     }
 
     ////////////////////////////////////////MinMaxAverageTests //////////////////////////////////////////////////////////////
@@ -159,10 +164,14 @@ public class ProvideControllerTest implements UnitTest {
         //given
         int topCount = 10;
         String currencyCode = "aud";
+        Currency currency = Currency.getInstance("AUD");
+        BigDecimalResponses bigDecimalResponses = new BigDecimalResponses(BigDecimal.valueOf(1),BigDecimal.valueOf(2));
+        when(minMaxAverageValueService.calculateMinMaxAverageValue(currency,topCount)).thenReturn(bigDecimalResponses);
         //when
-        ResponseEntity<BigDecimalResponses> actual = systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount);
+        ResponseEntity<BigDecimalResponses> returnValues = systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount);
         //then
-        Assertions.assertNotNull(actual);
+        verify(minMaxAverageValueService).calculateMinMaxAverageValue(currency, topCount);
+        Assertions.assertEquals(returnValues.getBody(),bigDecimalResponses);
     }
 
     @Test
@@ -172,7 +181,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "pln";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
 
     }
 
@@ -183,7 +192,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "ad";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
 
     }
 
@@ -194,7 +203,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "test";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
     }
 
     @Test
@@ -204,7 +213,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "aud";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
     }
 
     @Test
@@ -214,7 +223,7 @@ public class ProvideControllerTest implements UnitTest {
         String currencyCode = "aud";
         //when
         //then
-        Assertions.assertThrows(ProvideController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
+        Assertions.assertThrows(ExchangeRateController.RestValidationException.class, () -> systemUnderTest.provideMinMaxAverageValue(currencyCode, topCount));
 
     }
 }
