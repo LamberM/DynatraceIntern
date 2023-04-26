@@ -11,7 +11,7 @@ import java.util.*;
 @Service
 public class MinMaxAverageValueService {
 
-    public BigDecimalResponses getResponse(Currency currency, int topCount) {
+    public BigDecimalResponses calculateMinMaxAverageValue(Currency currency, int topCount) {
         RestTemplate restTemplate = new RestTemplate();
 
         String url = ("https://api.nbp.pl/api/exchangerates/rates/c/" + currency + "/last" + "/" + topCount + "/?format=json");

@@ -20,10 +20,10 @@ public class MinMaxAverageValueServiceTest implements UnitTest {
         Currency currency = Currency.getInstance("AUD");
         int topCount = 10;
         //when
-        BigDecimalResponses actual = systemUnderTest.getResponse(currency, topCount);
+        BigDecimalResponses actual = systemUnderTest.calculateMinMaxAverageValue(currency, topCount);
         //then
-        BigDecimal expectedMin = new BigDecimal("2.7621");
-        BigDecimal expectedMax = new BigDecimal("2.8748");
+        BigDecimal expectedMin = new BigDecimal("2.7380");
+        BigDecimal expectedMax = new BigDecimal("2.8743");
         Assertions.assertEquals(expectedMin, actual.min().setScale(4, RoundingMode.HALF_UP));
         Assertions.assertEquals(expectedMax, actual.max().setScale(4, RoundingMode.HALF_UP));
     }
