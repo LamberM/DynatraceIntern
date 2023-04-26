@@ -7,8 +7,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.*;
+
 @Service
-public class MinMaxAverageValueService{
+public class MinMaxAverageValueService {
 
     public BigDecimalResponses getResponse(Currency currency, int topCount) {
         RestTemplate restTemplate = new RestTemplate();
@@ -27,6 +28,6 @@ public class MinMaxAverageValueService{
             BigDecimal ask = rateNode.path("ask").decimalValue();
             maxRates.add(ask);
         }
-        return new BigDecimalResponses(Collections.min(minRates),Collections.max(maxRates));
+        return new BigDecimalResponses(Collections.min(minRates), Collections.max(maxRates));
     }
 }

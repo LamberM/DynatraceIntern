@@ -18,12 +18,12 @@ public class AverageExchangeRateServiceTest implements UnitTest {
     @Test
     void givenCodeAndLocalDate_whenGetResponse_thenResponseIsCorrect() throws JsonProcessingException {
         //given
-        Currency currency= Currency.getInstance("AUD");
+        Currency currency = Currency.getInstance("AUD");
         LocalDate date = LocalDate.parse(("2023-04-21"));
         //when
-        BigDecimal actual=systemUnderTest.getResponse(currency,date).setScale(4, RoundingMode.HALF_UP);
+        BigDecimal actual = systemUnderTest.getResponse(currency, date).setScale(4, RoundingMode.HALF_UP);
         //then
-        BigDecimal expected= new BigDecimal("2.8094");
-        Assertions.assertEquals(actual,expected);
+        BigDecimal expected = new BigDecimal("2.8094");
+        Assertions.assertEquals(actual, expected);
     }
 }

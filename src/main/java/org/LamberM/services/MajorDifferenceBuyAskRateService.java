@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
+
 @Service
 public class MajorDifferenceBuyAskRateService {
 
@@ -16,8 +17,8 @@ public class MajorDifferenceBuyAskRateService {
         RestTemplate restTemplate = new RestTemplate();
 
         double difference;
-        double maxDifference= 0;
-        String url= ("https://api.nbp.pl/api/exchangerates/rates/c/"+currencyCode+"/last"+"/"+topCount+"/?format=json");
+        double maxDifference = 0;
+        String url = ("https://api.nbp.pl/api/exchangerates/rates/c/" + currencyCode + "/last" + "/" + topCount + "/?format=json");
         JsonNode jsonNode = restTemplate.getForObject(url, JsonNode.class);
 
         List<Double> minRates = new ArrayList<>();
@@ -31,9 +32,9 @@ public class MajorDifferenceBuyAskRateService {
             maxRates.add(ask);
             minRates.add(bid);
         }
-        for (int i = 0; i < minRates.size(); i++ ){
-            difference = maxRates.get(i)- minRates.get(i);
-            if (difference >= maxDifference ){
+        for (int i = 0; i < minRates.size(); i++) {
+            difference = maxRates.get(i) - minRates.get(i);
+            if (difference >= maxDifference) {
                 maxDifference = difference;
                 i++;
             }

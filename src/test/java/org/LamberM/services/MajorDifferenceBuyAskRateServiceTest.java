@@ -17,13 +17,13 @@ public class MajorDifferenceBuyAskRateServiceTest implements UnitTest {
     @Test
     void givenCodeAndTopCount_whenGetResponse_thenResponseIsCorrect() {
         //given
-        Currency currency= Currency.getInstance("AUD");
-        int topCount=10;
+        Currency currency = Currency.getInstance("AUD");
+        int topCount = 10;
         //when
-        BigDecimal actual = systemUnderTest.getResponse(currency,topCount).setScale(4, RoundingMode.HALF_UP);
+        BigDecimal actual = systemUnderTest.getResponse(currency, topCount).setScale(4, RoundingMode.HALF_UP);
         //then
-        BigDecimal expected= new BigDecimal("0.0570");
-        Assertions.assertEquals(expected,actual);
+        BigDecimal expected = new BigDecimal("0.0570");
+        Assertions.assertEquals(expected, actual);
     }
 
 }

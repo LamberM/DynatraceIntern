@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
+
 @Service
 public class AverageExchangeRateService {
 
@@ -19,8 +20,8 @@ public class AverageExchangeRateService {
 
         String formattedDate = DateTimeFormatter.ISO_LOCAL_DATE.format(date);
 
-        String url= ("https://api.nbp.pl/api/exchangerates/rates/a/"+currencyCode+"/"+formattedDate+"/?format=json");
-        String json = restTemplate.getForObject(url,String.class);
+        String url = ("https://api.nbp.pl/api/exchangerates/rates/a/" + currencyCode + "/" + formattedDate + "/?format=json");
+        String json = restTemplate.getForObject(url, String.class);
         JsonNode rootNode = objectMapper.readTree(json);
         JsonNode midNode = rootNode.at("/rates/0/mid");
         return midNode.decimalValue();
